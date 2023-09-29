@@ -7,6 +7,7 @@ function love.load()
     Player.x = 400
     Player.y = 200
     Player.velocity = 0
+    love.mouse.setVisible(false)
 end
 
 function love.update(dt)
