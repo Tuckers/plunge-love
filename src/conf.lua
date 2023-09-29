@@ -3,4 +3,6 @@ function love.conf(t)
     t.window.height = 1920
     t.window.title = "Plunge"
     t.window.fullscreen = true
+    t.modules.joystick = false
+    t.modules.mouse = false
 end
