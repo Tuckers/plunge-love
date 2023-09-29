@@ -1,8 +1,12 @@
+local gates = require "gates"
+local utils = require "utils"
+local color = require "color"
+
 function love.load()
-    player = {}
-    player.x = 400
-    player.y = 200
-    player.velocity = 0
+    Player = {}
+    Player.x = 400
+    Player.y = 200
+    Player.velocity = 0
 end
 
 function love.update(dt)
@@ -10,21 +14,17 @@ function love.update(dt)
         love.event.quit()
     end
     if love.keyboard.isDown("left") then
-        player.velocity = player.velocity - 1
+        Player.velocity = Player.velocity - 1
     end
     if love.keyboard.isDown("right") then
-        player.velocity = player.velocity + 1
+        Player.velocity = Player.velocity + 1
     end
-    player.x = player.x + player.velocity
+    Player.x = Player.x + Player.velocity
 end
 
 function love.draw()
+    utils.setColor( color.green )
     love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)
-    setColor(255, 0, 0)
-    love.graphics.polygon("fill", player.x - 50, player.y - 50, player.x, player.y + 50, player.x + 50, player.y - 50)
-end
-
-function setColor( r, g, b, a )
-    a = a or 255
-    return love.graphics.setColor(love.math.colorFromBytes(r, g, b, a))
+    utils.setColor( color.red )
+    love.graphics.polygon("fill", Player.x - 50, Player.y - 50, Player.x, Player.y + 50, Player.x + 50, Player.y - 50)
 end
