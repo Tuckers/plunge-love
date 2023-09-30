@@ -55,7 +55,7 @@ function love.draw()
     -- draw graphics
     utils.setColor(color.darkestGray)
     love.graphics.rectangle("fill", PLAY_PADDING, PLAY_PADDING, PLAY_WIDTH, PLAY_HEIGHT)
-    utils.setColor(color.darkMint)
+    utils.setColor(color.darkBlue)
     love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)
     ship.draw(playerShip)
     gate.draw(testGate)
