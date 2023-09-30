@@ -2,61 +2,61 @@ local utils = require "utils"
 local color = require "color"
 require "conf"
 
-local ship = {}
+local export = {}
 
 -- helpful for shape stuff
 local halfWidth = SHIPWIDTH / 2
 local halfHeight = SHIPHEIGHT / 2
 
 -- create new player ship
-function ship.createShip()
-    local s = {}
-    s.position = { x = SCREENWIDTH / 2, y = SHIP_POSITION_Y }
-    s.velocity = { x = 0, y = 0 }
-    s.rotation = 0
-    s.fill = color.mint
-    s.p1 = { x = -halfWidth, y = -halfHeight }
-    s.p2 = { x = 0, y = halfHeight }
-    s.p3 = { x = halfWidth, y = -halfHeight }
-    return s
+function export.createShip()
+    local ship = {}
+    ship.position = { x = SCREENWIDTH / 2, y = SHIP_POSITION_Y }
+    ship.velocity = { x = 0, y = 0 }
+    ship.rotation = 0
+    ship.fill = color.mint
+    ship.p1 = { x = -halfWidth, y = -halfHeight }
+    ship.p2 = { x = 0, y = halfHeight }
+    ship.p3 = { x = halfWidth, y = -halfHeight }
+    return ship
 end
 
 -- update player ship values
-function ship.update( s )
+function export.update( ship )
     -- apply inertia
-    if s.velocity.x > 0.1 then
-        s.velocity.x = s.velocity.x - INERTIA
-    elseif s.velocity.x < -0.1 then
-        s.velocity.x = s.velocity.x + INERTIA
+    if ship.velocity.x > 0.1 then
+        ship.velocity.x = ship.velocity.x - INERTIA
+    elseif ship.velocity.x < -0.1 then
+        ship.velocity.x = ship.velocity.x + INERTIA
     end
     -- apply rotation inertia
-    if s.rotation > 0.1 then
-        s.rotation = s.rotation - ROTATION_INERTIA
-    elseif s.rotation < -0.1 then
-        s.rotation = s.rotation + ROTATION_INERTIA
+    if ship.rotation > 0.1 then
+        ship.rotation = ship.rotation - ROTATION_INERTIA
+    elseif ship.rotation < -0.1 then
+        ship.rotation = ship.rotation + ROTATION_INERTIA
     end
     -- add velocity to position
-    s.position.x = s.position.x + s.velocity.x
+    ship.position.x = ship.position.x + ship.velocity.x
     -- check for out of bounds
-    if s.position.x < PLAY_PADDING + SHIPWIDTH / 2 then
-        s.position.x = PLAY_PADDING + SHIPWIDTH / 2
-    elseif s.position.x > PLAY_WIDTH + PLAY_PADDING - SHIPWIDTH / 2 then
-        s.position.x = PLAY_WIDTH + PLAY_PADDING - SHIPWIDTH / 2
+    if ship.position.x < PLAY_PADDING + SHIPWIDTH / 2 then
+        ship.position.x = PLAY_PADDING + SHIPWIDTH / 2
+    elseif ship.position.x > PLAY_WIDTH + PLAY_PADDING - SHIPWIDTH / 2 then
+        ship.position.x = PLAY_WIDTH + PLAY_PADDING - SHIPWIDTH / 2
     end
     -- rotate triangle points
-    s.p1 = utils.rotateVector({x = -halfWidth, y = -halfHeight}, s.rotation)
-    s.p2 = utils.rotateVector({x = 0, y = halfHeight}, s.rotation)
-    s.p3 = utils.rotateVector({x = halfWidth, y = -halfHeight}, s.rotation)
+    ship.p1 = utils.rotateVector({x = -halfWidth, y = -halfHeight}, ship.rotation)
+    ship.p2 = utils.rotateVector({x = 0, y = halfHeight}, ship.rotation)
+    ship.p3 = utils.rotateVector({x = halfWidth, y = -halfHeight}, ship.rotation)
     -- add position and update ship values
-    s.p1 = utils.addVectors(s.p1, s.position)
-    s.p2 = utils.addVectors(s.p2, s.position)
-    s.p3 = utils.addVectors(s.p3, s.position)
+    ship.p1 = utils.addVectors(ship.p1, ship.position)
+    ship.p2 = utils.addVectors(ship.p2, ship.position)
+    ship.p3 = utils.addVectors(ship.p3, ship.position)
 end
 
 -- draw player ship
-function ship.draw( s )
-    utils.setColor( s.fill )
-    love.graphics.polygon("fill", s.p1.x, s.p1.y, s.p2.x, s.p2.y, s.p3.x, s.p3.y)
+function export.draw( ship )
+    utils.setColor( ship.fill )
+    love.graphics.polygon("fill", ship.p1.x, ship.p1.y, ship.p2.x, ship.p2.y, ship.p3.x, ship.p3.y)
 end
 
-return ship
+return export

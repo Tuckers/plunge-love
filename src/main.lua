@@ -4,18 +4,22 @@ local color = require "color"
 local ship = require "ship"
 require "conf"
 
+-- get current operating system
 local os = love.system.getOS( )
 
-local canvas = love.graphics.newCanvas( 1080, 1920 )
+-- initial setup
 local playerShip = ship.createShip()
-
+local score = 0;
+local testGate = {}
 
 function love.load()
+    gate.resetGate(testGate)
     love.math.setRandomSeed(love.timer.getTime())
     love.mouse.setVisible(false)
 end
 
 function love.update(dt)
+    -- exit on escape
     if love.keyboard.isDown("escape") then
         love.event.quit()
     end
@@ -39,16 +43,20 @@ function love.update(dt)
     end
     -- update ship position and rotation
     ship.update(playerShip)
+    gate.update(testGate)
 end
 
 function love.draw()
+    -- rotate graphics if on linux
     if os == "Linux" then
         love.graphics.translate(0, SCREENWIDTH)
         love.graphics.rotate(-math.pi/2)
     end
+    -- draw graphics
     utils.setColor(color.darkestGray)
     love.graphics.rectangle("fill", PLAY_PADDING, PLAY_PADDING, PLAY_WIDTH, PLAY_HEIGHT)
     utils.setColor(color.darkMint)
     love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)
     ship.draw(playerShip)
+    gate.draw(testGate)
 end
