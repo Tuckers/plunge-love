@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# get latest from repro
+git-repro-watcher -d plunge-love/ -i -o
+
+# start game
+love plunge-love/bin/plunge.love
