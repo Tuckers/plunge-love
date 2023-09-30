@@ -3,7 +3,8 @@ local color = {}
 -- basics
 color.red = { 255, 0, 0, 255 }
 color.green = { 0, 255, 0, 255 }
-color.white = { 255, 255, 255, 100 }
+color.white = { 255, 255, 255, 255 }
+color.blue = { 0, 0, 255, 255}
 
 -- game
 color.darkestGray = { 8, 8, 8, 255 }
