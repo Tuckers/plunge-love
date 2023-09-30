@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # get latest from repro
-git-repo-watcher -d plunge-love/ -i -o
+git-repo-watcher -d plunge-love/ -o
 
 # start game
 love plunge-love/bin/plunge.love
