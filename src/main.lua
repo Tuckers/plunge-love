@@ -4,7 +4,11 @@ local color = require "color"
 local ship = require "ship"
 require "conf"
 
+local os = love.system.getOS( )
+
+local canvas = love.graphics.newCanvas( 1080, 1920 )
 local playerShip = ship.createShip()
+
 
 function love.load()
     love.math.setRandomSeed(love.timer.getTime())
@@ -16,7 +20,7 @@ function love.update(dt)
         love.event.quit()
     end
     -- adjust velocity and rotation by left input
-    if love.keyboard.isDown("left") then
+    if love.keyboard.isDown("right") then
         if playerShip.velocity.x < MAX_VELOCITY then
             playerShip.velocity.x = playerShip.velocity.x + SHIP_ACCELERATION
         end
@@ -25,7 +29,7 @@ function love.update(dt)
         end
     end
     -- adjust velocity and rotation by right input
-    if love.keyboard.isDown("right") then
+    if love.keyboard.isDown("left") then
         if playerShip.velocity.x > -MAX_VELOCITY then
             playerShip.velocity.x = playerShip.velocity.x - SHIP_ACCELERATION
         end
@@ -38,6 +42,10 @@ function love.update(dt)
 end
 
 function love.draw()
+    if os == "Linux" then
+        love.graphics.translate(0, SCREENWIDTH)
+        love.graphics.rotate(-math.pi/2)
+    end
     utils.setColor(color.darkestGray)
     love.graphics.rectangle("fill", PLAY_PADDING, PLAY_PADDING, PLAY_WIDTH, PLAY_HEIGHT)
     utils.setColor(color.darkMint)

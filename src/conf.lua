@@ -1,8 +1,8 @@
 function love.conf(t)
-    t.window.width = 1080
-    t.window.height = 1920
-    t.window.title = "Plunge"
+    t.window.width = 1920
+    t.window.height = 1080
     t.window.fullscreen = true
+    t.window.title = "Plunge"
     t.modules.joystick = false
 end
 
@@ -30,7 +30,7 @@ MAX_GATE_SPEED = 10
 GATE_ACCELERATION = 0.1
 MAX_ROTATION = 30
 ROTATION_ACCELERATION = 1
-SHIP_ACCELERATION = 1.5
+SHIP_ACCELERATION = 1
 
 -- gamelogic
 MAX_GATES = 10
