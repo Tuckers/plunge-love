@@ -1,12 +1,13 @@
-local gates = require "gates"
+local gate = require "gate"
 local utils = require "utils"
 local color = require "color"
+local ship = require "ship"
+require "conf"
+
+local playerShip = ship.createShip()
 
 function love.load()
-    Player = {}
-    Player.x = 400
-    Player.y = 200
-    Player.velocity = 0
+    love.math.setRandomSeed(love.timer.getTime())
     love.mouse.setVisible(false)
 end
 
@@ -14,18 +15,32 @@ function love.update(dt)
     if love.keyboard.isDown("escape") then
         love.event.quit()
     end
+    -- adjust velocity and rotation by left input
     if love.keyboard.isDown("left") then
-        Player.velocity = Player.velocity - 1
+        if playerShip.velocity.x < MAX_VELOCITY then
+            playerShip.velocity.x = playerShip.velocity.x + SHIP_ACCELERATION
+        end
+        if playerShip.rotation > -MAX_ROTATION then
+            playerShip.rotation = playerShip.rotation - ROTATION_ACCELERATION
+        end
     end
+    -- adjust velocity and rotation by right input
     if love.keyboard.isDown("right") then
-        Player.velocity = Player.velocity + 1
+        if playerShip.velocity.x > -MAX_VELOCITY then
+            playerShip.velocity.x = playerShip.velocity.x - SHIP_ACCELERATION
+        end
+        if playerShip.rotation < MAX_ROTATION then
+            playerShip.rotation = playerShip.rotation + ROTATION_ACCELERATION
+        end
     end
-    Player.x = Player.x + Player.velocity
+    -- update ship position and rotation
+    ship.update(playerShip)
 end
 
 function love.draw()
-    utils.setColor( color.green )
+    utils.setColor(color.darkestGray)
+    love.graphics.rectangle("fill", PLAY_PADDING, PLAY_PADDING, PLAY_WIDTH, PLAY_HEIGHT)
+    utils.setColor(color.darkMint)
     love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)
-    utils.setColor( color.red )
-    love.graphics.polygon("fill", Player.x - 50, Player.y - 50, Player.x, Player.y + 50, Player.x + 50, Player.y - 50)
+    ship.draw(playerShip)
 end
