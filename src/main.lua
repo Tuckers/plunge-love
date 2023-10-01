@@ -9,7 +9,6 @@ local os = love.system.getOS( )
 
 -- initial setup
 local playerShip = ship.createShip()
-local score = 0;
 local testGate = {}
 
 function love.load()
@@ -19,6 +18,8 @@ function love.load()
 end
 
 function love.update(dt)
+    -- convert delta time per second into delta frame
+    local df = dt / FRAMETIME
     -- exit on escape
     if love.keyboard.isDown("escape") then
         love.event.quit()
@@ -26,24 +27,24 @@ function love.update(dt)
     -- adjust velocity and rotation by left input
     if love.keyboard.isDown("right") then
         if playerShip.velocity.x < MAX_VELOCITY then
-            playerShip.velocity.x = playerShip.velocity.x + SHIP_ACCELERATION
+            playerShip.velocity.x = playerShip.velocity.x + SHIP_ACCELERATION * df
         end
         if playerShip.rotation > -MAX_ROTATION then
-            playerShip.rotation = playerShip.rotation - ROTATION_ACCELERATION
+            playerShip.rotation = playerShip.rotation - ROTATION_ACCELERATION * df
         end
     end
     -- adjust velocity and rotation by right input
     if love.keyboard.isDown("left") then
         if playerShip.velocity.x > -MAX_VELOCITY then
-            playerShip.velocity.x = playerShip.velocity.x - SHIP_ACCELERATION
+            playerShip.velocity.x = playerShip.velocity.x - SHIP_ACCELERATION * df
         end
         if playerShip.rotation < MAX_ROTATION then
-            playerShip.rotation = playerShip.rotation + ROTATION_ACCELERATION
+            playerShip.rotation = playerShip.rotation + ROTATION_ACCELERATION * df
         end
     end
     -- update ship position and rotation
-    ship.update(playerShip)
-    gate.update(testGate)
+    ship.update(playerShip, df)
+    gate.update(testGate, df)
 end
 
 function love.draw()

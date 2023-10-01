@@ -1,4 +1,5 @@
 require "math"
+require "conf"
 
 local export = {}
 
@@ -21,10 +22,9 @@ function export.rotateVector( vector, angle)
 
     return result
 end
-
 -- add two vectors
 function export.addVectors( v1, v2 )
-    return { x = v1.x + v2.x, y = v1.y + v2.y }
+    return Vector(v1.x + v2.x, v1.y + v2.y)
 end
 -- remap values to new range
 function export.remap( value, inputStart, inputEnd, outputStart, outputEnd )

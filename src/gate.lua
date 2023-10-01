@@ -16,22 +16,22 @@ function export.resetGate( gate )
     gate.color = color.white
 end
 
-function export.update ( gate )
+function export.update ( gate, df )
     -- get distance to bottom of playarea
     local absY = PLAY_HEIGHT + PLAY_PADDING - gate.position.y
 
     -- gate phases
     if absY < 128 then
-        gate.height = gate.height + 1
+        gate.height = gate.height + 1 * df
     elseif absY >= 128 and absY < 400 then
-        gate.height = utils.remap( absY, MAX_GATE_HEIGHT, 400, MAX_GATE_HEIGHT, MIN_GATE_HEIGHT )
+        gate.height = utils.remap( absY, MAX_GATE_HEIGHT, 400, MAX_GATE_HEIGHT, MIN_GATE_HEIGHT ) * df
     elseif absY >= 400 then
         gate.height = MIN_GATE_HEIGHT
         if gate.gapPercentage < 100 then
-            gate.gapPercentage = utils.remap(absY, 400, 800, 0, 100)
+            gate.gapPercentage = utils.remap(absY, 400, 800, 0, 100) * df
         end
         if gate.velocity.y < MAX_GATE_SPEED then
-            gate.velocity.y = gate.velocity.y + GATE_ACCELERATION
+            gate.velocity.y = gate.velocity.y + GATE_ACCELERATION * df
         end
     elseif absY > PLAY_HEIGHT then
         export.resetGate( gate )

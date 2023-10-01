@@ -4,6 +4,12 @@ function love.conf(t)
     t.window.fullscreen = true
     t.window.title = "Plunge"
     t.modules.joystick = false
+    t.window.vsync = 1
+end
+
+-- make vector
+function Vector( x, y )
+    return { x = x, y = y }
 end
 
 -- layout
@@ -35,3 +41,6 @@ SHIP_ACCELERATION = 1
 -- gamelogic
 MAX_GATES = 10
 MAX_LINES = 10
+SCORE = 0
+FRAMERATE = 60
+FRAMETIME = 1 / FRAMERATE
