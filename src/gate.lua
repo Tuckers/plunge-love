@@ -33,23 +33,24 @@ function export.update ( gate, df )
         if gate.velocity.y < MAX_GATE_SPEED then
             gate.velocity.y = gate.velocity.y + GATE_ACCELERATION * df
         end
-    elseif absY > PLAY_HEIGHT then
+    end
+    if absY > PLAY_HEIGHT then
         export.resetGate( gate )
     end
     gate.position.y = gate.position.y - gate.velocity.y
 end
 
 function export.draw( gate )
-    local gateColor = gate.hit and color.red or gate.color
+    local gateColor = gate.hit and color.danger or gate.color
     local gapCenter = gate.gap / 2 + gate.gapPosition
     local opening = gate.gap / 100 * gate.gapPercentage
     local gapStart = gapCenter - opening / 2
     local gapEnd = gapCenter + opening / 2
     if gate.gapPercentage > 1 and gate.gapPercentage < 100 then
-        utils.setColor( color.white )
+        color.set( color.white )
         love.graphics.rectangle("fill", gapStart, gate.position.y, opening, gate.height)
     end
-    utils.setColor( gateColor )
+    color.set( gateColor )
     love.graphics.rectangle("fill", gate.position.x, gate.position.y, gapStart - PLAY_PADDING, gate.height)
     love.graphics.rectangle("fill", gapEnd, gate.position.y, PLAY_WIDTH - gapEnd + PLAY_PADDING, gate.height)
 end

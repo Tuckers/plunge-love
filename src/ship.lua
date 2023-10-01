@@ -14,7 +14,7 @@ function export.createShip()
     ship.position = Vector( SCREENWIDTH / 2, SHIP_POSITION_Y )
     ship.velocity = Vector( 0, 0)
     ship.rotation = 0
-    ship.fill = color.mint
+    ship.color = color.mint
     ship.p1 = Vector( -halfWidth, -halfHeight )
     ship.p2 = Vector( 0, halfHeight )
     ship.p3 = Vector( halfWidth, -halfHeight )
@@ -55,7 +55,7 @@ end
 
 -- draw player ship
 function export.draw( ship )
-    utils.setColor( ship.fill )
+    color.set( ship.color )
     love.graphics.polygon("fill", ship.p1.x, ship.p1.y, ship.p2.x, ship.p2.y, ship.p3.x, ship.p3.y)
 end
 

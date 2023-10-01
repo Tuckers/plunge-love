@@ -3,12 +3,6 @@ require "conf"
 
 local export = {}
 
--- convert color from 255 space and set love graphics color
-function export.setColor( r, g, b, a )
-    a = a or 255
-    return love.graphics.setColor(love.math.colorFromBytes(r, g, b, a))
-end
-
 -- rotate vector by angle in degrees
 function export.rotateVector( vector, angle)
     angle = math.rad(angle)
