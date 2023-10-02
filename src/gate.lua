@@ -4,7 +4,8 @@ require "conf"
 
 local export = {}
 
-function export.resetGate( gate )
+function export.create( gate )
+    gate = gate or {}
     gate.position = {x = PLAY_PADDING, y = PLAY_HEIGHT + PLAY_PADDING }
     gate.velocity = {x = 0, y = 1}
     gate.height = 5
@@ -13,31 +14,31 @@ function export.resetGate( gate )
     gate.gapPercentage = 0
     gate.belowPlayer = true
     gate.hit = false
-    gate.color = color.white
+    gate.color = color.mint
+    return gate
 end
 
 function export.update ( gate, df )
     -- get distance to bottom of playarea
     local absY = PLAY_HEIGHT + PLAY_PADDING - gate.position.y
-
     -- gate phases
     if absY < 128 then
         gate.height = gate.height + 1 * df
     elseif absY >= 128 and absY < 400 then
-        gate.height = utils.remap( absY, MAX_GATE_HEIGHT, 400, MAX_GATE_HEIGHT, MIN_GATE_HEIGHT ) * df
+        gate.height = utils.remap( absY, MAX_GATE_HEIGHT, 400, MAX_GATE_HEIGHT, MIN_GATE_HEIGHT )
     elseif absY >= 400 then
         gate.height = MIN_GATE_HEIGHT
         if gate.gapPercentage < 100 then
-            gate.gapPercentage = utils.remap(absY, 400, 800, 0, 100) * df
+            gate.gapPercentage = utils.remap(absY, 400, 800, 0, 100)
         end
         if gate.velocity.y < MAX_GATE_SPEED then
             gate.velocity.y = gate.velocity.y + GATE_ACCELERATION * df
         end
     end
     if absY > PLAY_HEIGHT then
-        export.resetGate( gate )
+        export.create( gate )
     end
-    gate.position.y = gate.position.y - gate.velocity.y
+    gate.position.y = gate.position.y - gate.velocity.y * df
 end
 
 function export.draw( gate )
