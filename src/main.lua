@@ -1,7 +1,9 @@
 local gate = require "gate"
 local color = require "color"
 local ship = require "ship"
+local bar = require "bar"
 local collisions = require "collisions"
+local bkg = require "background"
 require "conf"
 
 -- get current operating system
@@ -10,6 +12,7 @@ local os = love.system.getOS( )
 -- initial setup
 local playerShip = ship.createShip()
 local testGate = {}
+local playerBar = bar.create()
 
 function love.load()
     gate.resetGate(testGate)
@@ -17,6 +20,7 @@ function love.load()
     love.mouse.setVisible(false)
 end
 
+-- update each interval dt
 function love.update(dt)
     -- convert delta time per second into delta frame
     local df = dt / FRAMETIME
@@ -43,13 +47,29 @@ function love.update(dt)
             playerShip.rotation = playerShip.rotation + ROTATION_ACCELERATION * df
         end
     end
-    -- update ship position and rotation
+    -- check for collisions
+    local collision = false
+    if testGate.belowPlayer then
+        collision = collisions.checkCollision( playerShip, testGate)
+    end
+
+    if collision and testGate.belowPlayer then
+        testGate.hit = true
+        testGate.belowPlayer = false
+        HEAT = HEAT + 1
+    end
+
+    if testGate.position.y < playerShip.position.y and testGate.belowPlayer then
+        testGate.belowPlayer = false
+        SCORE = SCORE + 1
+    end
+    -- update ship position and rotation, gate and heat bar
     ship.update(playerShip, df)
     gate.update(testGate, df)
-
-    collisions.checkCollision( playerShip, testGate)
+    bar.update(playerBar)
 end
 
+-- draw to screen
 function love.draw()
     -- rotate graphics if on linux
     if os == "Linux" then
@@ -63,6 +83,10 @@ function love.draw()
     love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)
     color.set(color.white)
     love.graphics.print(string.format("%000000009.0f M", DISTANCE), 450, 96)
+    love.graphics.print("Playerbar: "..tostring(playerBar.percentage).."%", 450, 120)
+    love.graphics.print("Heat: "..tostring(HEAT), 450, 140)
     ship.draw(playerShip)
     gate.draw(testGate)
+    bar.draw(playerBar)
+    bkg.particles()
 end

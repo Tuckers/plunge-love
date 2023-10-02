@@ -3,6 +3,9 @@ local export = {}
 -- set current graphics color, with optional alpha
 function export.set( color, a)
     a = a or color.a
+    if a > 1 then
+        a = a / 100
+    end
     love.graphics.setColor( color.r, color.g, color.b, a )
 end
 
