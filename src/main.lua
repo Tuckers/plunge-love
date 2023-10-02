@@ -67,6 +67,7 @@ function love.update(dt)
     ship.update(playerShip, df)
     gate.update(testGate, df)
     bar.update(playerBar)
+    bkg.particles:update(dt)
 end
 
 -- draw to screen
@@ -80,6 +81,7 @@ function love.draw()
     color.set(color.darkestGray)
     love.graphics.rectangle("fill", PLAY_PADDING, PLAY_PADDING, PLAY_WIDTH, PLAY_HEIGHT)
     color.set(color.darkBlue)
+    love.graphics.draw(bkg.particles, 0, 500)
     love.graphics.print("Current FPS: "..tostring(love.timer.getFPS( )), 10, 10)
     color.set(color.white)
     love.graphics.print(string.format("%000000009.0f M", DISTANCE), 450, 96)
@@ -88,5 +90,5 @@ function love.draw()
     ship.draw(playerShip)
     gate.draw(testGate)
     bar.draw(playerBar)
-    bkg.particles()
+    
 end
