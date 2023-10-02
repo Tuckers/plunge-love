@@ -100,7 +100,7 @@ function love.draw()
     love.graphics.setFont(font36)
     love.graphics.print(string.format("%09.0f M", DISTANCE), 450, 96)
     love.graphics.setFont(font24)
-    love.graphics.print(string.format("%09.0f", SCORE), 48, 1845)
+    love.graphics.print(string.format("%07.0f", SCORE.."00"), 48, 1845)
     ship.draw(playerShip)
     for i = 1, #gates , 1 do
         gate.draw(gates[i])

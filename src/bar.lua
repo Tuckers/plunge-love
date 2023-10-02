@@ -28,8 +28,10 @@ function export.draw( bar )
     color.set( bar.color, 20 )
     love.graphics.rectangle("fill", bar.position.x, bar.position.y, bar.width, bar.height)
     -- draw bar fill
-    color.set( bar.color )
-    love.graphics.rectangle("fill", bar.position.x, bar.position.y, ( bar.width / 100 ) * bar.percentage, bar.height)
+    if bar.percentage > 0 then
+        color.set( bar.color )
+        love.graphics.rectangle("fill", bar.position.x, bar.position.y, ( bar.width / 100 ) * bar.percentage, bar.height)
+    end
 end
 
 return export
